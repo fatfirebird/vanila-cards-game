@@ -10,7 +10,7 @@ const dev = process.env.NODE_ENV === 'development';
 const filename = ext => dev ? `[name].${ext}` : `[name].[hash].${ext}`
 const css = extra => {
   const config = [
-    {
+      {
        loader: MiniCssExtractPlugin.loader,
        options: {
         hmr: dev,
@@ -48,14 +48,14 @@ module.exports = {
   context: path.resolve(__dirname, 'src'),
   mode: 'development',
   entry: {
-    main: ['@babel/polyfill', './index.js']
+    main: ['@babel/polyfill', './App.js']
   },
   output: {
     filename: filename('js'),
     path: path.resolve(__dirname, 'dist'),
   },
   resolve: {
-    extensions: ['.js', '.css'],
+    extensions: ['.js', '.css', '.scss'],
     alias: {
       '@assets': path.resolve(__dirname, 'assets'),
       '@fonts': path.resolve(__dirname, 'assets/fonts'),
