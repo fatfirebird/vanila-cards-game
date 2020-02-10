@@ -1,0 +1,39 @@
+@mixin container {
+  @media (min-width: 576px) {
+    max-width: 540px;
+  }
+
+  @media (min-width: 768px) {
+    max-width: 720px;
+  }
+
+  @media (min-width: 992px) {
+    max-width: 900px;
+  }
+
+  @media (min-width: 1200px) {
+    max-width: 1140px
+  }
+}
+
+@mixin card {
+  @media (min-width: 576px) {
+    width: 30px;
+    height: calc(30px + 30px/3);
+  }
+
+  @media (min-width: 768px) {
+    width: 50px;
+    height: calc(50px + 50px/3);
+  }
+
+  @media (min-width: 992px) {
+    width: 60px;
+    height: calc(60px + 60px/3);
+  }
+
+  @media (min-width: 1200px) {
+    width: 80px;
+    height: calc(80px + 80px/3);
+  }
+}
