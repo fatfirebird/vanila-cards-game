@@ -36,7 +36,6 @@ export default class Card {
   _removeSelect(arr) {
     for (let i = 0; i < arr.length; i++) {
       const div = document.getElementById(arr[i]);
-      
       div.style.backgroundImage = null;
       div.classList.remove('cards-container__card--selected');
     }
