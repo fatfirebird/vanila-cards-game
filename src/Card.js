@@ -1,6 +1,6 @@
 export default class Card {
   cards = ['1', '1', '2', '2', '3', '3', '4', '4', '5', '5', '6', '6', '7', '7', '8', '8']; 
-  choice = [];
+  choice = new Map();
 
   get cardsArr() {
     return this._createArr();
@@ -29,38 +29,80 @@ export default class Card {
       arr.push(index);
       index = this.cards.indexOf(el1, index + 1)
     }
-
+    
     return arr;
+  }
+
+  _removeSelect(arr) {
+    for (let i = 0; i < arr.length; i++) {
+      const div = document.getElementById(arr[i]);
+      
+      div.style.backgroundImage = null;
+      div.classList.remove('cards-container__card--selected');
+    }
+    this._enable();
+  }
+
+  _enable() {
+    const cards = document.querySelectorAll('.cards-container__card')
+    cards.forEach(el => {
+      el.classList.remove('disabled');
+    });
+  }
+
+  _disable() {
+    const cards = document.querySelectorAll('.cards-container__card')
+    cards.forEach(el => {
+      el.classList.add('disabled');
+    });
   }
 
   _checkChoice() {
     let eq = false;
-    console.log(this.choice);
+    const indexes = [];
+    const values = [];
     
-    if (this.choice.length == 2) {
-      eq = this.choice[0] === this.choice[1];
-      eq ? eq = this._getIds(this.choice[0], this.choice[1]) : eq = false
-      this.choice = [];
+    for (const elem of this.choice) {
+      indexes.push(elem[0]);
+      values.push(elem[1])
     }
     
-    return eq
+    if (indexes.length === 2) {
+      if (values[0] === values[1]) {
+        eq = indexes;
+      } else {
+        this._disable();
+        setTimeout(() => this._removeSelect(indexes), 1000);
+       }
+
+       this.choice.clear();
+    }
+    
+    return this._setAsCompared(eq);
   }
 
-  createCards(id) {
+  _setAsCompared(arr) {
+    for (let i = 0; i < arr.length; i++) {
+      const id = arr[i]
+      const div = document.getElementById(id);
+      div.classList.remove('cards-container__card--selected');
+      div.classList.add('cards-container__card--compared');
+    }
+  }
+
+  createCards(value, id) {
     const div = document.createElement('div');
     div.className = 'cards-container__card';
     div.id = id;
+    div.img = value;
     const container = document.getElementById('cards-container');
     container.append(div);
   }
 
-  addChoice(id) {
-    this.choice.push(this.cards[id]);
+  addChoice(elem) {
+    elem.classList.add('cards-container__card--selected');
+    elem.style.backgroundImage = `url(../assets/${elem.img}.png)`;
+    this.choice.set(elem.id, this.cards[elem.id]);
     return this._checkChoice();
   } 
-
-  removeChoice() {
-    this.choice.pop();
-    return false
-  }
 }
